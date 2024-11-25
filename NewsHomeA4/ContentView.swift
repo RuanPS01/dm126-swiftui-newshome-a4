@@ -16,7 +16,7 @@ struct ContentView: View {
                 Divider().frame(height: 20)
                 FeaturesGrid()
                 Divider().frame(height: 20)
-                GoalContainer()
+                SmallNewsContainer()
             }
             
         }

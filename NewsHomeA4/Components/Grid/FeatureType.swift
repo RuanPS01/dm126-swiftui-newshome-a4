@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct FeatureType: View {
-    let service: ServiceType
+    let service: CategoryNewsType
     @State private var isFullScreen = false
     
     var body: some View {
         VStack {
-            Image(service.imagem)
+            Image(service.image)
                 .resizable()
                 .scaledToFit()
                 .cornerRadius(8)
@@ -22,10 +22,10 @@ struct FeatureType: View {
                     isFullScreen = true
                 }
                 .fullScreenCover(isPresented: $isFullScreen) {
-                    FullScreenImageView(image: Image(service.imagem), isPresented: $isFullScreen)
+                    FullScreenImageView(image: Image(service.image), isPresented: $isFullScreen)
                 }
             
-            Text(service.nome)
+            Text(service.name)
                 .font(.system(size: 14))
         }
         .frame(width: 100, height: 100)
@@ -63,5 +63,5 @@ struct FullScreenImageView: View {
 }
 
 #Preview {
-    FeatureType(service: ServiceType(id: 1, nome: "Exercitar", imagem: "coffee"))
+    FeatureType(service: CategoryNewsType(id: 1, name: "Exercitar", image: "coffee"))
 }

@@ -29,10 +29,10 @@ struct NavigationBar: View {
             .sheet(isPresented: $showingNameSheet) {
                 NavigationView {
                     VStack(spacing: 20) {
-                        Text("Alterar Nome")
+                        Text("Your name")
                             .font(.headline)
                         
-                        TextField("Digite o novo nome", text: $tempName)
+                        TextField("Enter the new name", text: $tempName)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding()
                             .onSubmit {
@@ -43,14 +43,14 @@ struct NavigationBar: View {
                             }
                         
                         HStack {
-                            Button("Cancelar") {
+                            Button("Cancel") {
                                 showingNameSheet = false
                             }
                             .foregroundColor(.red)
                             
                             Spacer()
                             
-                            Button("Confirmar") {
+                            Button("Comfirm") {
                                 if !tempName.isEmpty {
                                     userName = tempName
                                     showingNameSheet = false

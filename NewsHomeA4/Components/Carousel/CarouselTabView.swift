@@ -8,17 +8,63 @@
 import SwiftUI
 
 struct CarouselTabView: View {
-    let bannerList: [ServiceType] = [
-            ServiceType(id: 1, nome: "", imagem: "motivacional1"),
-            ServiceType(id: 2, nome: "", imagem: "motivacional2"),
-            ServiceType(id: 3, nome: "", imagem: "motivacional3"),]
+    @StateObject private var viewModel = CarouselViewModel()
+    
     var body: some View {
-        TabView{
-            ForEach(bannerList){ banner in CarouselItemView(banner: banner)}
-        }.frame(height: 300).tabViewStyle(.page(indexDisplayMode: .never))
+        Group {
+            if viewModel.isLoading {
+                ProgressView("Loading...")
+                    .frame(height: 300)
+            } else if let error = viewModel.error {
+                Text("Error: \(error)")
+                    .foregroundColor(.red)
+                    .frame(height: 300)
+            } else {
+                TabView {
+                    ForEach(viewModel.news) { news in
+                        CarouselItemView(news: news)
+                    }
+                }
+                .frame(height: 200)
+                .tabViewStyle(.page(indexDisplayMode: .automatic))
+            }
+        }
+        .onAppear {
+            if viewModel.news.isEmpty {
+                viewModel.fetchNews()
+            }
+        }
     }
 }
 
-#Preview {
+// Dados para visualização do Preview
+class PreviewCarouselViewModel: CarouselViewModel {
+    override func fetchNews() {
+        self.news = [
+            CarouselNewsType(
+                title: "Apple lança novo MacBook Pro",
+                imageUrl: "https://example.com/image1.jpg"
+            ),
+            CarouselNewsType(
+                title: "Tesla apresenta novo modelo de carro elétrico",
+                imageUrl: "https://example.com/image2.jpg"
+            ),
+            CarouselNewsType(
+                title: "Google anuncia novidades no Android",
+                imageUrl: "https://example.com/image3.jpg"
+            )
+        ]
+    }
+}
+
+struct CarouselTabView_Previews: PreviewProvider {
+    static var previews: some View {
+        CarouselTabView()
+            .environmentObject(PreviewCarouselViewModel())
+    }
+}
+
+#Preview("Carousel de Notícias") {
     CarouselTabView()
+        .environmentObject(PreviewCarouselViewModel())
 }
